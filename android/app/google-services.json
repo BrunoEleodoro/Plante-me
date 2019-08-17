@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1071943472423",
+    "firebase_url": "https://plante-me.firebaseio.com",
+    "project_id": "plante-me",
+    "storage_bucket": "plante-me.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1071943472423:android:ca7677397c69e093",
+        "android_client_info": {
+          "package_name": "brunoeleodoro.com.plante_me"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1071943472423-vmthkm4knd359gea0vd9hkne8gr7jdrp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPOPi2WMz3ZQxwv2nGNWf2mjRM6gEu2Zk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1071943472423-vmthkm4knd359gea0vd9hkne8gr7jdrp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1071943472423-304aseaj6nepdt06ioa23sjhqd4nilti.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.plante-me"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
