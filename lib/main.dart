@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'dart:io';
+import 'pages/subscribe.dart';
+import 'pages/take_photo.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -10,10 +13,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Plante Me',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
       home: FirstPage(),
+      routes: {
+        // When navigating to the "/second" route, build the SecondScreen widget.
+        'subscribe': (context) => SubscribeScreen(),
+        'photo' : (context) => TakePhoto()
+      },
     );
   }
 }
@@ -48,7 +57,10 @@ class _FirstPageState extends State<FirstPage> {
     return Scaffold(
       appBar: AppBar(),
       body: Center(
-        child: Text(this._token),
+        child: MaterialButton(child: Text('Subscribe'),
+            onPressed: (){
+          Navigator.pushNamed(context, 'subscribe');
+        }),
       ),
     );
   }
