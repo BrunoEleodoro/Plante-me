@@ -4,11 +4,19 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../success_page.dart';
 
 class PlantaItem extends StatefulWidget {
+  var apelido;
+  var nome;
+  var sol;
+  var adubagem;
+  var regadas;
+
+  PlantaItem({this.apelido, this.nome, this.sol, this.adubagem, this.regadas});
   @override
   _PlantaItemState createState() => _PlantaItemState();
 }
 
 class _PlantaItemState extends State<PlantaItem> {
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,7 +45,7 @@ class _PlantaItemState extends State<PlantaItem> {
                         height: 20,
                       ),
                       Text(
-                        'Filomena',
+                        widget.apelido,
                         style:
                             TextStyle(color: Color(0XFF09bf7b), fontSize: 22),
                       ),
@@ -45,7 +53,7 @@ class _PlantaItemState extends State<PlantaItem> {
                         height: 10,
                       ),
                       Text(
-                        'Lirio Laranja',
+                        widget.nome,
                         style:
                             TextStyle(color: Color(0XFFD9AC59), fontSize: 16),
                       ),
@@ -77,7 +85,7 @@ class _PlantaItemState extends State<PlantaItem> {
                               height: 10,
                             ),
                             Text(
-                              '12',
+                              widget.regadas,
                               style: TextStyle(
                                   color: Color(0XFF09bf7b),
                                   fontSize: 24,
@@ -104,7 +112,7 @@ class _PlantaItemState extends State<PlantaItem> {
                             height: 10,
                           ),
                           Text(
-                            '8',
+                            widget.sol,
                             style: TextStyle(
                                 color: Color(0XFF09bf7b),
                                 fontSize: 24,
@@ -131,7 +139,7 @@ class _PlantaItemState extends State<PlantaItem> {
                               height: 10,
                             ),
                             Text(
-                              '1',
+                              widget.adubagem,
                               style: TextStyle(
                                   color: Color(0XFF09bf7b),
                                   fontSize: 24,
@@ -141,7 +149,7 @@ class _PlantaItemState extends State<PlantaItem> {
                               height: 10,
                             ),
                             Text(
-                              'Regadas',
+                              'Adubagem',
                               style: TextStyle(fontSize: 14),
                             ),
                           ],

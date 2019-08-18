@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'components/planta_item.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class HomePage extends StatefulWidget {
   @override
@@ -9,14 +11,59 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var list = [
-    PlantaItem(),
-    PlantaItem(),
-    PlantaItem(),
-    PlantaItem(),
-    PlantaItem(),
-    PlantaItem(),
-  ];
+  SharedPreferences prefs;
+
+  var isLoading = false;
+
+  var token = "";
+
+  var lista = [];
+
+  var list = [];
+
+  @override
+  void initState() {
+    loadData();
+    super.initState();
+  }
+
+  void loadData() async {
+    prefs = await SharedPreferences.getInstance();
+    if (prefs.getString("token").isNotEmpty) {
+      token = prefs.getString("token");
+      getAllPlants();
+    }
+  }
+
+  void getAllPlants() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    var url = 'https://plantemenode.herokuapp.com/plantas/usuario';
+    var response = await http
+        .get(url, headers: {'Authorization': prefs.getString("token")});
+    print(response.body);
+
+    var json = jsonDecode(response.body);
+
+    var i = 0;
+    while (i < json['plantas'].length) {
+      list.add(PlantaItem(
+        apelido: json['plantas'][i]['apelido'],
+        nome: json['plantas'][i]['nome_planta'],
+        adubagem: json['plantas'][i]['adubagem'].toString(),
+        regadas: json['plantas'][i]['regadas'].toString(),
+        sol: json['plantas'][i]['sol'].toString(),
+      ));
+      i++;
+    }
+//    prefs.setString("token", json['token']);
+
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +129,7 @@ class _HomePageState extends State<HomePage> {
                   )
                 ],
               ),
+            (this.isLoading) ? LinearProgressIndicator() : Text(''),
               SizedBox(
                 height: 20,
               ),
@@ -157,7 +205,7 @@ class _HomePageState extends State<HomePage> {
                         color: Colors.grey,
                       )),
                   GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       Navigator.pushNamed(context, 'subscribe');
                     },
                     child: Container(
