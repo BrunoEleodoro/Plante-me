@@ -63,7 +63,9 @@ class _PlantaItemState extends State<PlantaItem> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Container(width: 30,height: 30,child:SvgPicture.asset('assets/Drop.svg')),
+                          Container(width: 30,
+                              height: 30,
+                              child: SvgPicture.asset('assets/Drop.svg')),
                           SizedBox(
                             height: 10,
                           ),

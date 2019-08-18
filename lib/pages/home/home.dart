@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'components/planta_item.dart';
 
@@ -112,6 +113,7 @@ class _HomePageState extends State<HomePage> {
                 height: 20,
               ),
               ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: list.length,
                   itemBuilder: (context, index) {
@@ -120,7 +122,63 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-      ), //      bottomNavigationBar: ,
+      ),
+      bottomNavigationBar: Container(
+        width: double.maxFinite,
+        height: 60,
+        child: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            Container(
+              height: 60,
+              color: Color(0XFF11c180),
+            ),
+            Container(
+              height: 50,
+              child: Row(
+                mainAxisAlignment:MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Container(
+                      width: 30,
+                      height: 30,
+                      child: SvgPicture.asset(
+                        'assets/Drop.svg',
+                        color: Colors.grey,
+                      )),
+                  Container(
+                      width: 30,
+                      height: 30,
+                      child: SvgPicture.asset(
+                        'assets/Drop.svg',
+                        color: Colors.grey,
+                      )),
+                  Container(
+                      width: 30,
+                      height: 30,
+                      child: SvgPicture.asset(
+                        'assets/Drop.svg',
+                        color: Colors.white,
+                      )),
+                  Container(
+                      width: 30,
+                      height: 30,
+                      child: SvgPicture.asset(
+                        'assets/Drop.svg',
+                        color: Colors.grey,
+                      )),
+                  Container(
+                      width: 30,
+                      height: 30,
+                      child: SvgPicture.asset(
+                        'assets/Drop.svg',
+                        color: Colors.grey,
+                      )),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
