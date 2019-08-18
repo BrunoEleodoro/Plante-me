@@ -1,9 +1,12 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:plante_me/pages/error_page.dart';
 import 'package:plante_me/pages/success_page.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class RegisterPlant extends StatefulWidget {
   @override
@@ -14,12 +17,17 @@ class _RegisterPlantState extends State<RegisterPlant> {
   var selectedValue = "Semente";
   File _image;
   String base64 = "";
+  var isLoading = false;
+  var id_planta;
+
+  SharedPreferences prefs;
+  TextEditingController controller_apelido = new TextEditingController();
+  TextEditingController controller_codigo = new TextEditingController();
 
   Future getImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.camera);
 
-    List<int> imageBytes = _image.readAsBytesSync();
-    print(imageBytes);
+    List<int> imageBytes = image.readAsBytesSync();
 
     setState(() {
       _image = image;
@@ -42,12 +50,79 @@ class _RegisterPlantState extends State<RegisterPlant> {
     } else {}
   }
 
+  void registerPlant() async {
+    print('registerPlant');
+    setState(() {
+      isLoading = true;
+    });
+
+    var url = 'https://plantemenode.herokuapp.com/plantas/usuario/adicionar';
+    var response = await http.post(url, body: {
+      'apelido': controller_apelido.text,
+      'estado': selectedValue,
+      'codigo': controller_codigo.text,
+      'tipo': id_planta.toString(),
+      'base64': base64
+    }, headers: {
+      'Authorization': prefs.getString("token")
+    });
+
+    print(response.body);
+
+    setState(() {
+      isLoading = false;
+    });
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SuccessPage(
+            message: 'Salvo com sucesso!',
+            route: 'home',
+          ),
+        ));
+  }
+
+  void validarCodigo() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    var url = 'https://plantemenode.herokuapp.com/codigo';
+    var response = await http.post(url,
+        body: {'codigo': controller_codigo.text},
+        headers: {'Authorization': prefs.getString("token")});
+    print(response.body);
+    if (response.statusCode == 500) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ErrorPage(
+              message: 'Código inexistente!',
+              route: 'myself',
+            ),
+          ));
+    } else {
+      var json = jsonDecode(response.body);
+      print(json);
+      setState(() {
+        id_planta = json['id_planta'];
+        isLoading = false;
+      });
+      registerPlant();
+    }
+  }
+
   @override
   void initState() {
     if (Platform.isAndroid) {
       retrieveLostData();
     }
+    loadData();
     super.initState();
+  }
+
+  void loadData() async {
+    prefs = await SharedPreferences.getInstance();
   }
 
   @override
@@ -94,6 +169,9 @@ class _RegisterPlantState extends State<RegisterPlant> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
+                            (this.isLoading)
+                                ? LinearProgressIndicator()
+                                : Text(''),
                             (_image == null)
                                 ? DottedBorder(
                                     padding: EdgeInsets.all(4),
@@ -158,6 +236,7 @@ class _RegisterPlantState extends State<RegisterPlant> {
                         height: 30,
                       ),
                       TextField(
+                          controller: controller_apelido,
                           obscureText: false,
                           decoration: new InputDecoration(
                               focusedBorder: OutlineInputBorder(
@@ -206,6 +285,27 @@ class _RegisterPlantState extends State<RegisterPlant> {
                                 'Semente',
                                 style: new TextStyle(color: Colors.black),
                               ),
+                            ),
+                            new DropdownMenuItem<String>(
+                              value: 'Em germinação',
+                              child: new Text(
+                                'Em germinação',
+                                style: new TextStyle(color: Colors.black),
+                              ),
+                            ),
+                            new DropdownMenuItem<String>(
+                              value: 'Muda',
+                              child: new Text(
+                                'Muda',
+                                style: new TextStyle(color: Colors.black),
+                              ),
+                            ),
+                            new DropdownMenuItem<String>(
+                              value: 'Adulta',
+                              child: new Text(
+                                'Adulta',
+                                style: new TextStyle(color: Colors.black),
+                              ),
                             )
                           ],
                         ),
@@ -230,6 +330,7 @@ class _RegisterPlantState extends State<RegisterPlant> {
                             borderRadius: BorderRadius.circular(5.0),
                             color: Color(0XFF707070)),
                         child: TextField(
+                          controller: controller_codigo,
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 25, color: Colors.white),
                           obscureText: false,
@@ -244,14 +345,15 @@ class _RegisterPlantState extends State<RegisterPlant> {
                           color: Color(0XFF11c180),
                           height: 50,
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SuccessPage(
-                                    message: 'Filomena adicionada!',
-                                    route: 'home',
-                                  ),
-                                ));
+                            this.validarCodigo();
+//                            Navigator.push(
+//                                context,
+//                                MaterialPageRoute(
+//                                  builder: (context) => SuccessPage(
+//                                    message: 'Filomena adicionada!',
+//                                    route: 'home',
+//                                  ),
+//                                ));
                           },
                           child: Text(
                             'CONTINUAR',

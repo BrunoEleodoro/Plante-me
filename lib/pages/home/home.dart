@@ -43,7 +43,6 @@ class _HomePageState extends State<HomePage> {
     var url = 'https://plantemenode.herokuapp.com/plantas/usuario';
     var response = await http
         .get(url, headers: {'Authorization': prefs.getString("token")});
-    print(response.body);
 
     var json = jsonDecode(response.body);
 
@@ -206,7 +205,7 @@ class _HomePageState extends State<HomePage> {
                       )),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, 'subscribe');
+                      Navigator.pushNamed(context, 'register');
                     },
                     child: Container(
                         width: 30,
