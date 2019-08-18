@@ -12,6 +12,10 @@ class _HomePageState extends State<HomePage> {
   var list = [
     PlantaItem(),
     PlantaItem(),
+    PlantaItem(),
+    PlantaItem(),
+    PlantaItem(),
+    PlantaItem(),
   ];
 
   @override
@@ -136,7 +140,7 @@ class _HomePageState extends State<HomePage> {
             Container(
               height: 50,
               child: Row(
-                mainAxisAlignment:MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Container(
                       width: 30,

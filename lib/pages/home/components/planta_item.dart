@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../success_page.dart';
+
 class PlantaItem extends StatefulWidget {
   @override
   _PlantaItemState createState() => _PlantaItemState();
@@ -55,35 +57,41 @@ class _PlantaItemState extends State<PlantaItem> {
                 flex: 9,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.baseline,
-                  textBaseline: TextBaseline.alphabetic,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
                     Expanded(
                       flex: 3,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Container(width: 30,
-                              height: 30,
-                              child: SvgPicture.asset('assets/Drop.svg')),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            '12',
-                            style: TextStyle(
-                                color: Color(0XFF09bf7b),
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            'Regadas',
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ],
+                      child: GestureDetector(
+                        onTap: (){
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SuccessPage(message: 'Filomena regada!',route: 'home',),
+                              ));
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(width: 30,height: 30,child:SvgPicture.asset('assets/Drop.svg')),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              '12',
+                              style: TextStyle(
+                                  color: Color(0XFF09bf7b),
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'Regadas',
+                              style: TextStyle(fontSize: 14),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     Expanded(

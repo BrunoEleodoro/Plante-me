@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:plante_me/pages/home/home.dart';
 import 'package:plante_me/pages/login.dart';
 import 'package:plante_me/pages/onboarding/onboarding.dart';
+import 'package:plante_me/pages/success_page.dart';
 import 'dart:io';
 import 'pages/subscribe.dart';
 import 'pages/take_photo.dart';
