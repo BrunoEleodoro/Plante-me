@@ -1,4 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:crypto/crypto.dart';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -6,6 +12,32 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  TextEditingController controller_email = new TextEditingController();
+  TextEditingController controller_password = new TextEditingController();
+
+  var isLoading = false;
+
+  void login() async {
+    setState(() {
+      isLoading = true;
+    });
+    var password = utf8.encode(controller_password.text);
+    var digest1 = sha256.convert(password);
+
+    var url = 'https://plantemenode.herokuapp.com/user/login';
+    var response = await http.post(url,
+        body: {'email': controller_email.text, 'password': digest1.toString()});
+    var json = jsonDecode(response.body);
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("token", json['token']);
+
+    setState(() {
+      isLoading = false;
+    });
+    Navigator.pushReplacementNamed(context, 'onboarding');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,6 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                         SizedBox(
                           height: 30,
                         ),
+                        (this.isLoading) ? LinearProgressIndicator() : Text(''),
                         Container(
                           width: double.maxFinite,
                           child: Text(
@@ -64,6 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                         TextInputComponent(
                           label: 'E-mail',
                           obscureText: false,
+                          controller: controller_email,
                         ),
                         SizedBox(
                           height: 20,
@@ -71,6 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                         TextInputComponent(
                           label: 'Senha',
                           obscureText: true,
+                          controller: controller_password,
                         ),
                         SizedBox(
                           height: 20,
@@ -95,7 +130,11 @@ class _LoginPageState extends State<LoginPage> {
                             height: 50,
                             color: Color(0XFFD9AC59),
                             onPressed: () {
-                              Navigator.pushNamed(context, 'onboarding');
+                              if (!isLoading) {
+                                login();
+                              }
+
+//                              Navigator.pushNamed(context, 'onboarding');
                             },
                             child: Text(
                               'ENTRAR',
@@ -119,7 +158,9 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 20,),
+                        SizedBox(
+                          height: 20,
+                        ),
                         Container(
                           width: double.maxFinite,
                           child: MaterialButton(
@@ -150,13 +191,15 @@ class _LoginPageState extends State<LoginPage> {
 class TextInputComponent extends StatelessWidget {
   var label = "";
   var obscureText = false;
+  var controller;
 
-  TextInputComponent({this.label, this.obscureText});
+  TextInputComponent({this.label, this.obscureText, this.controller});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: TextField(
+          controller: controller,
           obscureText: this.obscureText,
           decoration: new InputDecoration(
               focusedBorder: OutlineInputBorder(

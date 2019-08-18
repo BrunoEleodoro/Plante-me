@@ -116,7 +116,8 @@ class _SubscribeScreenState extends State<SubscribeScreen> {
                   child: MaterialButton(
                     height: 50,
                     onPressed: () {
-                      Navigator.pushNamed(context, 'photo');
+                      Navigator.pushNamed(context, 'register');
+                    Navigator.pop(context);
                     },
                     color: Colors.green,
                     child: Text(

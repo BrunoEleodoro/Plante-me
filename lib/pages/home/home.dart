@@ -156,13 +156,18 @@ class _HomePageState extends State<HomePage> {
                         'assets/Drop.svg',
                         color: Colors.grey,
                       )),
-                  Container(
-                      width: 30,
-                      height: 30,
-                      child: SvgPicture.asset(
-                        'assets/Drop.svg',
-                        color: Colors.white,
-                      )),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.pushNamed(context, 'subscribe');
+                    },
+                    child: Container(
+                        width: 30,
+                        height: 30,
+                        child: SvgPicture.asset(
+                          'assets/Drop.svg',
+                          color: Colors.white,
+                        )),
+                  ),
                   Container(
                       width: 30,
                       height: 30,

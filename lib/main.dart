@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
         'photo' : (context) => TakePhoto(),
         'onboarding' : (context) => OnboardingPage(),
         'home' : (context) => HomePage(),
+        'register' : (context) => RegisterPlant()
       },
     );
   }
