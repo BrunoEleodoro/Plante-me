@@ -24,7 +24,7 @@ class _TakePhotoState extends State<TakePhoto> {
 
   void loadData() async {
     cameras = await availableCameras();
-    controller = CameraController(cameras[0], ResolutionPreset.high);
+    controller = CameraController(cameras[0], ResolutionPreset.max);
     controller.initialize().then((_) {
       if (!mounted) {
         return;

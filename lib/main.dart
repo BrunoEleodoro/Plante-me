@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:plante_me/pages/login.dart';
 import 'dart:io';
 import 'pages/subscribe.dart';
 import 'pages/take_photo.dart';
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: FirstPage(),
+      home: LoginPage(),
       routes: {
         // When navigating to the "/second" route, build the SecondScreen widget.
         'subscribe': (context) => SubscribeScreen(),
