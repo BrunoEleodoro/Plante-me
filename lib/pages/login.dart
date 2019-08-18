@@ -94,7 +94,9 @@ class _LoginPageState extends State<LoginPage> {
                           child: MaterialButton(
                             height: 50,
                             color: Color(0XFFD9AC59),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(context, 'onboarding');
+                            },
                             child: Text(
                               'ENTRAR',
                               style: TextStyle(color: Colors.white),
