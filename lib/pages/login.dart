@@ -12,10 +12,26 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
   TextEditingController controller_email = new TextEditingController();
   TextEditingController controller_password = new TextEditingController();
 
+  SharedPreferences prefs;
+
   var isLoading = false;
+
+  @override
+  void initState() {
+    loadData();
+    super.initState();
+  }
+
+  void loadData() async {
+    prefs = await SharedPreferences.getInstance();
+    if(prefs.getString("token").isNotEmpty) {
+      Navigator.pushReplacementNamed(context, 'home');
+    }
+  }
 
   void login() async {
     setState(() {
@@ -29,7 +45,6 @@ class _LoginPageState extends State<LoginPage> {
         body: {'email': controller_email.text, 'password': digest1.toString()});
     var json = jsonDecode(response.body);
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("token", json['token']);
 
     setState(() {

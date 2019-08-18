@@ -22,9 +22,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: LoginPage(),
+      home: SplashScreen(),
       routes: {
-        // When navigating to the "/second" route, build the SecondScreen widget.
+        'login': (context) => LoginPage(),
         'subscribe': (context) => SubscribeScreen(),
         'photo' : (context) => TakePhoto(),
         'onboarding' : (context) => OnboardingPage(),
@@ -34,6 +34,28 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+class SplashScreen extends StatefulWidget {
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    Future.delayed(Duration(seconds: 2), () {
+      Navigator.pushReplacementNamed(context, 'login');
+    });
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color(0XFF00c474),
+    );
+  }
+}
+
 
 class FirstPage extends StatefulWidget {
   @override
