@@ -174,6 +174,12 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     ),
                   ],
                 ),
+                (selectedIndex == 3) ? MaterialButton(
+                  color: Colors.amber,
+                    child: Text('CONTINUAR', style: TextStyle(color: Colors.white),),
+                    onPressed: (){
+                  Navigator.pushNamed(context, 'home');
+                }) : Text('')
               ],
             ),
           ],
