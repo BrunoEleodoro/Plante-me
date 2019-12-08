@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16.5" height="16.5" viewBox="0 0 16.5 16.5">
+  <g id="Pontuacao" transform="translate(0.25 0.25)" opacity="0.4">
+    <path id="Caminho_810" data-name="Caminho 810" d="M8,0a8,8,0,1,0,8,8A8,8,0,0,0,8,0ZM8,15a7,7,0,1,1,7-7A7,7,0,0,1,8,15Z" fill="#fff" stroke="#fff" stroke-width="0.5"/>
+    <path id="Caminho_811" data-name="Caminho 811" d="M47.4,33.9h2.27a.5.5,0,0,0,0-1H48.54V32.25a.5.5,0,0,0-1,0V32.9H47.4a1.689,1.689,0,1,0,0,3.375h1.08a.695.695,0,0,1,0,1.39h-2.27a.5.5,0,0,0,0,1H47.54v.648a.5.5,0,0,0,1,0v-.65a1.694,1.694,0,0,0-.056-3.379H47.4a.689.689,0,1,1,0-1.375Z" transform="translate(-39.944 -27.781)" fill="#fff" stroke="#fff" stroke-width="0.5"/>
+  </g>
+</svg>

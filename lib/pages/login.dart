@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void loadData() async {
     prefs = await SharedPreferences.getInstance();
-    if(prefs.getString("token").isNotEmpty) {
+    if(prefs.getString("token") != null && prefs.getString("token").isNotEmpty) {
       Navigator.pushReplacementNamed(context, 'home');
     }
   }
@@ -128,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                         Container(
                           width: double.maxFinite,
                           child: Text(
-                            'Esquece a senha?',
+                            'Esqueceu a senha?',
                             style: TextStyle(
                               color: Color(0XFFD9AC59),
                               fontSize: 14,

@@ -7,6 +7,8 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:path/path.dart' as path;
+import 'package:async/async.dart' as async_lib;
 
 class RegisterPlant extends StatefulWidget {
   @override
@@ -19,6 +21,7 @@ class _RegisterPlantState extends State<RegisterPlant> {
   String base64 = "";
   var isLoading = false;
   var id_planta;
+  var img_name;
 
   SharedPreferences prefs;
   TextEditingController controller_apelido = new TextEditingController();
@@ -56,30 +59,70 @@ class _RegisterPlantState extends State<RegisterPlant> {
       isLoading = true;
     });
 
+    var stream = new http.ByteStream(
+        async_lib.DelegatingStream.typed(_image.openRead()));
+    var length = await _image.length();
+
+    var uri = Uri.parse(
+        'https://plantemenode.herokuapp.com/plantas/usuario/adicionar/img');
+
+    var request = new http.MultipartRequest("POST", uri);
+
+    var multipartFile = new http.MultipartFile('image', stream, length,
+        filename: path.basename(_image.path));
+    //contentType: new MediaType('image', 'png'));
+    request.headers.addAll({'Authorization': prefs.getString("token")});
+    request.files.add(multipartFile);
+
+    var response = await request.send();
+    print(response.statusCode);
+    response.stream.transform(utf8.decoder).listen((value) {
+      print(value);
+      var data = jsonDecode(value);
+      print(data['img']);
+
+      reallySave(data['img']);
+    });
+
+//
+  }
+
+  void reallySave(img) async {
     var url = 'https://plantemenode.herokuapp.com/plantas/usuario/adicionar';
-    var response = await http.post(url, body: {
-      'apelido': controller_apelido.text,
-      'estado': selectedValue,
-      'codigo': controller_codigo.text,
-      'tipo': id_planta.toString(),
-      'base64': base64
-    }, headers: {
-      'Authorization': prefs.getString("token")
-    });
+    try {
+      var response = await http.post(url, body: {
+        'apelido': controller_apelido.text,
+        'estado': selectedValue,
+        'codigo': controller_codigo.text,
+        'tipo': id_planta.toString(),
+        'img': img
+      }, headers: {
+        'Authorization': prefs.getString("token")
+      });
 
-    print(response.body);
+      print(response.body);
 
-    setState(() {
-      isLoading = false;
-    });
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => SuccessPage(
-            message: 'Salvo com sucesso!',
-            route: 'home',
-          ),
-        ));
+      setState(() {
+        isLoading = false;
+      });
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SuccessPage(
+              message: 'Salvo com sucesso!',
+              route: 'home',
+            ),
+          ));
+    } catch (ex) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ErrorPage(
+              message: 'Erro: ' + ex,
+              route: 'myself',
+            ),
+          ));
+    }
   }
 
   void validarCodigo() async {

@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
 
   void loadData() async {
     prefs = await SharedPreferences.getInstance();
-    if (prefs.getString("token").isNotEmpty) {
+    if (prefs.getString("token") != null && prefs.getString("token").isNotEmpty) {
       token = prefs.getString("token");
       getAllPlants();
     }
@@ -66,6 +66,30 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+
+    var list = [
+      PlantaItem(
+        sol: "3",
+        regadas: "6",
+        adubagem: "2",
+        nome: 'Lirio laranja',
+        apelido: 'Filomena',
+      ),PlantaItem(
+        sol: "6",
+        regadas: "1",
+        adubagem: "2",
+        nome: 'Lirio laranja',
+        apelido: 'Filra',
+      ),
+    PlantaItem(
+    sol: "9",
+    regadas: "3",
+    adubagem: "7",
+    nome: 'laranjais',
+    apelido: 'Filomena',
+    )
+    ];
+
     return Scaffold(
       backgroundColor: Color(0XFFfbfbfb),
       body: SingleChildScrollView(
@@ -193,15 +217,15 @@ class _HomePageState extends State<HomePage> {
                       width: 30,
                       height: 30,
                       child: SvgPicture.asset(
-                        'assets/Drop.svg',
-                        color: Colors.grey,
+                        'assets/Minhas_Plantas.svg',
+                        color: Colors.white,
                       )),
                   Container(
                       width: 30,
                       height: 30,
                       child: SvgPicture.asset(
-                        'assets/Drop.svg',
-                        color: Colors.grey,
+                        'assets/Pontuacao.svg',
+                        color: Colors.white,
                       )),
                   GestureDetector(
                     onTap: () {
@@ -211,7 +235,7 @@ class _HomePageState extends State<HomePage> {
                         width: 30,
                         height: 30,
                         child: SvgPicture.asset(
-                          'assets/Drop.svg',
+                          'assets/Adicionar.svg',
                           color: Colors.white,
                         )),
                   ),
@@ -219,15 +243,15 @@ class _HomePageState extends State<HomePage> {
                       width: 30,
                       height: 30,
                       child: SvgPicture.asset(
-                        'assets/Drop.svg',
-                        color: Colors.grey,
+                        'assets/Store.svg',
+                        color: Colors.white,
                       )),
                   Container(
                       width: 30,
                       height: 30,
                       child: SvgPicture.asset(
-                        'assets/Drop.svg',
-                        color: Colors.grey,
+                        'assets/Profile.svg',
+                        color: Colors.white,
                       )),
                 ],
               ),
